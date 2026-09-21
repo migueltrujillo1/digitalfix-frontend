@@ -1,75 +1,65 @@
-# React + TypeScript + Vite
+# 🔧 DigitalFix - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend de **DigitalFix**, una plataforma para la gestión de órdenes de trabajo y servicios técnicos.
 
-Currently, two official plugins are available:
+La aplicación permite autenticarse mediante **Microsoft Entra ID**, administrar órdenes de trabajo, consultar el catálogo de servicios y visualizar indicadores (KPIs).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Tecnologías
 
-## React Compiler
+- ⚛️ React + TypeScript
+- ⚡ Vite
+- 🔐 Microsoft Entra ID + MSAL
+- ☁️ AWS API Gateway
+- 🔑 Autenticación mediante JWT
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Funcionalidades
 
-## Expanding the ESLint configuration
+- Inicio y cierre de sesión con Microsoft.
+- Obtención y envío automático del Access Token.
+- Gestión de órdenes de trabajo.
+- Gestión del catálogo de servicios y repuestos.
+- Consulta de KPIs.
+- Consumo del backend mediante AWS API Gateway.
+- Protección de recursos mediante JWT.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🏗️ Arquitectura
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+React
+  │
+  ├── Microsoft Entra ID
+  │       └── Autenticación / JWT
+  │
+  ▼
+AWS API Gateway
+  │
+  ▼
+DigitalFix BFF
+  │
+  ├── WorkOrders
+  ├── Catalog
+  └── Report
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## ▶️ Ejecutar el proyecto
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Clonar el repositorio e instalar las dependencias:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
+
+Crear el archivo `.env` con la configuración correspondiente y luego ejecutar:
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en:
+
+```text
+http://localhost:5173
+```
+
+
+Desarrollado como parte de la evaluación de **Desarrollo Cloud Native**.
