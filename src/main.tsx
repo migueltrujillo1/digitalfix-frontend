@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { PublicClientApplication, EventType } from "@azure/msal-browser";
 import type { EventMessage, AuthenticationResult } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
+import "./index.css";
 import { msalConfig } from "./authConfig";
 import App from "./App";
 

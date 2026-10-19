@@ -1,20 +1,34 @@
-import { useMsal, useIsAuthenticated } from "@azure/msal-react";
-import { InteractionStatus } from "@azure/msal-browser";
-import { loginRequest } from "./authConfig";
-import { ProtectedData } from "./ProtectedData";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { NavBar } from "./components/NavBar";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
+import { Login } from "./pages/Login";
+import { Dashboard } from "./pages/Dashboard";
+import { WorkOrders } from "./pages/WorkOrders";
+import { Catalog } from "./pages/Catalog";
+import { Reports } from "./pages/Reports";
+import { Audit } from "./pages/Audit";
 
 export default function App() {
-  const { instance, accounts, inProgress } = useMsal();
-  const isAuthenticated = useIsAuthenticated();
-  const currentUser = instance.getActiveAccount() || accounts[0];
+    return (
+        <BrowserRouter>
+            <NavBar />
+            <main className="app-content">
+                <Routes>
+                    {/* Ruta Pública */}
+                    <Route path="/login" element={<Login />} />
 
-  const handleLogin = () => inProgress === InteractionStatus.None && instance.loginRedirect(loginRequest).catch(console.error);
-  const handleLogout = () => inProgress === InteractionStatus.None && instance.logoutRedirect({ postLogoutRedirectUri: window.location.origin }).catch(console.error);
+                    {/* Rutas Protegidas */}
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/workorders" element={<ProtectedRoute><WorkOrders /></ProtectedRoute>} />
+                    <Route path="/catalog" element={<ProtectedRoute><Catalog /></ProtectedRoute>} />
+                    <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+                    <Route path="/audit" element={<ProtectedRoute><Audit /></ProtectedRoute>} /> 
 
-  return <main className="app-shell">
-    <header className="topbar"><div><span className="eyebrow">Plataforma de gestión técnica</span><h1>DigitalFix</h1></div>{isAuthenticated && <button className="secondary" onClick={handleLogout}>Cerrar sesión</button>}</header>
-    {!isAuthenticated ? <section className="login-card"><h2>Acceso al portal técnico</h2><p>Autenticación institucional mediante Microsoft Entra ID.</p><button onClick={handleLogin} disabled={inProgress !== InteractionStatus.None}>{inProgress !== InteractionStatus.None ? "Autenticando..." : "Iniciar sesión con Microsoft"}</button></section>
-    : <><div className="welcome"><div><span>Usuario autenticado</span><strong>{currentUser?.name || currentUser?.username}</strong></div><span className="status-dot">● Sesión activa</span></div><ProtectedData /></>}
-  </main>;
+                    {/* Redirección por defecto */}
+                    <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+            </main>
+        </BrowserRouter>
+    );
 }
